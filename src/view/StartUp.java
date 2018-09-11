@@ -6,15 +6,18 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class StartUp extends Application {
+	
+	private int width = 800;
+	private int height = 600;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		BorderPane pane = new BorderPane();
 		pane.setTop(new TopMenu());
-		pane.setLeft(new SideMenu());
+		pane.setLeft(new SideMenu(width * 0.1));
 		pane.setCenter(new MainProgramWindow());
 		
-		Scene scene = new Scene(pane, 800, 600);
+		Scene scene = new Scene(pane, width, height);
 		
 		primaryStage.setTitle("FlexiRent");
 		primaryStage.setScene(scene);
