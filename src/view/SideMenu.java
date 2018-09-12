@@ -1,5 +1,6 @@
 package view;
 
+import controller.SideMenuHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
@@ -48,13 +49,14 @@ public class SideMenu extends BorderPane {
 	private void addLabels() {
 		for (int i = 0; i < labels.length; i++) {
 			labels[i].setPadding(new Insets(30, 10, 30, 10));
-			if (i % 2 == 0) {
-				labels[i].setStyle("-fx-background-color: lightgreen");
-			} else {
-				labels[i].setStyle("-fx-background-color: lightblue");
-			}
+			labels[i].setOnMouseEntered(new SideMenuHandler(labels[i], true));
+			labels[i].setOnMouseExited(new SideMenuHandler(labels[i], false));
 			topLabels.getChildren().add(labels[i]);
 		}
+	}
+	
+	public FlowPane[] getLabels() {
+		return labels;
 	}
 
 }
