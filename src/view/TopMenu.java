@@ -13,7 +13,7 @@ public class TopMenu extends MenuBar {
 	public TopMenu() {
 		menu = new Menu("File");
 		importData = new MenuItem("Import Data");
-		exportData = new MenuItem("ExportData");
+		exportData = new MenuItem("Export Data");
 		menu.getItems().addAll(importData, exportData);
 		this.getMenus().add(menu);
 	}
