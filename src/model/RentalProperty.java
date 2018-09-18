@@ -1,5 +1,10 @@
 package model;
 
+import java.sql.Connection;
+import java.sql.Statement;
+
+import main.FlexiRentDBConnection;
+
 public abstract class RentalProperty {
 	
 	// Instance variables
@@ -12,9 +17,33 @@ public abstract class RentalProperty {
 	private String status;
 	private int numRecords;
 	private DateTime lastMaintenanceDate;
+	private String description;
+	private String image;
 	
 	// Constructor
-	public RentalProperty() {}
+	public RentalProperty(String propertyID, int streetNumber, String streetName, String suburb,
+			int numBedrooms, String type, String status, String description, String image) {
+		
+		final String DB_NAME = "flexiRentDB";
+		final String TABLE_NAME = "RENTAL_PROPERTY";
+		
+		String values = "'" + propertyID + "', " + streetNumber + ", '" + streetName + "', '" + suburb + 
+				"', " + numBedrooms + ", '" + type + "', '" + status + "', " + 0 + 
+				", " + "'2018-09-17'" + ", '" + description + "', '" + image + "'";
+		
+		try (Connection con = FlexiRentDBConnection.getConnection(DB_NAME);
+				Statement stmt = con.createStatement()
+				) {
+			String query = "INSERT INTO " + TABLE_NAME + 
+					" VALUES (" + values + ")";
+			int result = stmt.executeUpdate(query);
+			con.commit();
+			System.out.println("Insert into table " + TABLE_NAME + " executed successfully");
+			System.out.println(result + " row(s) affected");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
 	
 	public String getPropertyID() {
 		return propertyID;

@@ -27,7 +27,7 @@ public class CreateTableRentalProperty {
 										+ "description VARCHAR(100) NOT NULL,"
 										+ "image VARCHAR(20) NOT NULL,"
 										+ "PRIMARY KEY (propertyID))");
-			if(result == 0) {
+			if (result == 0) {
 				System.out.println("Table " + TABLE_NAME + " has been created successfully");
 			} else {
 				System.out.println("Table " + TABLE_NAME + " is not created");
