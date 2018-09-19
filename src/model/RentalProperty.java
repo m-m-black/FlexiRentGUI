@@ -23,18 +23,30 @@ public abstract class RentalProperty {
 	// Constructor
 	public RentalProperty(String propertyID, int streetNumber, String streetName, String suburb,
 			int numBedrooms, String type, String status, String description, String image) {
-		
-		final String DB_NAME = "flexiRentDB";
-		final String TABLE_NAME = "RENTAL_PROPERTY";
-		
+		// create new RentalProperty record in DB
 		String values = "'" + propertyID + "', " + streetNumber + ", '" + streetName + "', '" + suburb + 
 				"', " + numBedrooms + ", '" + type + "', '" + status + "', " + 0 + 
 				", " + "'2018-09-17'" + ", '" + description + "', '" + image + "'";
+		insertRow("flexiRentDB", "RENTAL_PROPERTY", values);
 		
+	}
+	
+	public void rent(String recordID, String propertyID, String customerID, DateTime rentDate, DateTime estReturnDate) {
+		// create new RentalRecord in DB
+		String values = "'" + recordID + "', '" + propertyID + "', '" + customerID + "', "
+				+ "'2018-10-17'" + ", " + "'2018-10-18', " + "null, null, null";
+		insertRow("flexiRentDB", "RENTAL_RECORD", values);
+
+	}
+	
+	private void insertRow(String dbName, String tableName, String valueString) {
+		final String DB_NAME = dbName;
+		final String TABLE_NAME = tableName;
+		String values = valueString;
 		try (Connection con = FlexiRentDBConnection.getConnection(DB_NAME);
-				Statement stmt = con.createStatement()
+				Statement stmt = con.createStatement();
 				) {
-			String query = "INSERT INTO " + TABLE_NAME + 
+			String query = "INSERT INTO " + TABLE_NAME +
 					" VALUES (" + values + ")";
 			int result = stmt.executeUpdate(query);
 			con.commit();
@@ -98,6 +110,18 @@ public abstract class RentalProperty {
 	}
 	public void setLastMaintenanceDate(DateTime lastMaintenanceDate) {
 		this.lastMaintenanceDate = lastMaintenanceDate;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public String getImage() {
+		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 }
