@@ -1,9 +1,6 @@
 package model;
 
-import java.sql.Connection;
-import java.sql.Statement;
-
-import main.FlexiRentDBConnection;
+import main.DatabaseMethods;
 
 public abstract class RentalProperty {
 	
@@ -27,34 +24,35 @@ public abstract class RentalProperty {
 		String values = "'" + propertyID + "', " + streetNumber + ", '" + streetName + "', '" + suburb + 
 				"', " + numBedrooms + ", '" + type + "', '" + status + "', " + 0 + 
 				", " + "'2018-09-17'" + ", '" + description + "', '" + image + "'";
-		insertRow("flexiRentDB", "RENTAL_PROPERTY", values);
+		DatabaseMethods.insertRow("flexiRentDB", "RENTAL_PROPERTY", values);
 		
 	}
 	
-	public void rent(String recordID, String propertyID, String customerID, DateTime rentDate, DateTime estReturnDate) {
+	// Rent method
+	public void rent(String recordID, String propertyID, String customerID, DateTime rentDate, 
+			DateTime estReturnDate) {
 		// create new RentalRecord in DB
 		String values = "'" + recordID + "', '" + propertyID + "', '" + customerID + "', "
 				+ "'2018-10-17'" + ", " + "'2018-10-18', " + "null, null, null";
-		insertRow("flexiRentDB", "RENTAL_RECORD", values);
+		DatabaseMethods.insertRow("flexiRentDB", "RENTAL_RECORD", values);
 
 	}
 	
-	private void insertRow(String dbName, String tableName, String valueString) {
-		final String DB_NAME = dbName;
-		final String TABLE_NAME = tableName;
-		String values = valueString;
-		try (Connection con = FlexiRentDBConnection.getConnection(DB_NAME);
-				Statement stmt = con.createStatement();
-				) {
-			String query = "INSERT INTO " + TABLE_NAME +
-					" VALUES (" + values + ")";
-			int result = stmt.executeUpdate(query);
-			con.commit();
-			System.out.println("Insert into table " + TABLE_NAME + " executed successfully");
-			System.out.println(result + " row(s) affected");
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
+	public void returnProperty() {
+		// update RentalRecord in DB with actReturnDate, calculate fees
+		// update RentalProperty status in DB
+		DatabaseMethods.updateRow();
+		DatabaseMethods.updateRow();
+	}
+	
+	public void performMaintenance() {
+		// change status in DB to UNDER_MAINTENANCE
+		DatabaseMethods.updateRow();
+	}
+	
+	public void completeMaintenance() {
+		// change status in DB to AVAILABLE
+		DatabaseMethods.updateRow();
 	}
 	
 	public String getPropertyID() {
