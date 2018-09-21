@@ -1,6 +1,15 @@
 package view;
 
+import java.awt.Desktop;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -9,20 +18,24 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 public class AddPropertyView extends BorderPane {
 	
 	private static final int MAX_CHARS = 100;
 	GridPane form = new GridPane();
+	Stage stage;
+	private Desktop desktop = Desktop.getDesktop();
 	
 	public AddPropertyView() {
 		this.setStyle("-fx-background-color: white");
 		this.setTop(new Label("Add Property"));
-		this.makeForm();
+		this.makeForm(stage);
 		this.setCenter(form);
 	}
 	
-	private void makeForm() {
+	private void makeForm(final Stage stage) {
 		form.setHgap(10);
 		form.setVgap(10);
 
@@ -77,11 +90,33 @@ public class AddPropertyView extends BorderPane {
 		Label image = new Label("Image:");
 		form.add(image, 0, 7);
 		
-		TextField imageTextField = new TextField();
-		form.add(imageTextField, 1, 7);
+		Button imageButton = new Button("Choose image");
+		form.add(imageButton, 1, 7);
+		
+		FileChooser imageChooser = new FileChooser();
+		
+		imageButton.setOnAction(new EventHandler<ActionEvent> () {
+			@Override
+			public void handle(ActionEvent e) {
+				File file = imageChooser.showOpenDialog(stage);
+				if (file != null) {
+					saveFile(file);
+				}
+			}
+		});
 		
 		Button addButton = new Button("Add Property");
 		form.add(addButton, 1, 8);
+	}
+	
+	private void saveFile(File file) {
+		try {
+			File image = new File("images/" + file.getName());
+			BufferedImage bi = ImageIO.read(file);
+			ImageIO.write(bi, "jpg", image);
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
 }
