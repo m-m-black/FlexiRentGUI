@@ -24,7 +24,7 @@ public abstract class RentalProperty {
 		String values = "'" + propertyID + "', " + streetNumber + ", '" + streetName + "', '" + suburb + 
 				"', " + numBedrooms + ", '" + type + "', '" + status + "', " + 0 + 
 				", " + "'2018-09-17'" + ", '" + description + "', '" + image + "'";
-		DatabaseMethods.insertRow("flexiRentDB", "RENTAL_PROPERTY", values);
+		DatabaseMethods.insertRow("RENTAL_PROPERTY", values);
 		
 	}
 	
@@ -34,25 +34,30 @@ public abstract class RentalProperty {
 		// create new RentalRecord in DB
 		String values = "'" + recordID + "', '" + propertyID + "', '" + customerID + "', "
 				+ "'2018-10-17'" + ", " + "'2018-10-18', " + "null, null, null";
-		DatabaseMethods.insertRow("flexiRentDB", "RENTAL_RECORD", values);
+		DatabaseMethods.insertRow("RENTAL_RECORD", values);
+		DatabaseMethods.updateStatus(this.propertyID, "RENTED");
 
 	}
 	
 	public void returnProperty() {
+		double rentalFee = 0; // need to calculate this
+		double lateFee = 0; // need to calculate this
+		// find the current RentalRecord (will have actReturnDate == null)
+		String recordID = DatabaseMethods.getCurrentRecord(this.propertyID);
 		// update RentalRecord in DB with actReturnDate, calculate fees
+		DatabaseMethods.updateRecord(recordID, new DateTime(), rentalFee, lateFee);
 		// update RentalProperty status in DB
-		DatabaseMethods.updateRow();
-		DatabaseMethods.updateRow();
+		DatabaseMethods.updateStatus(this.propertyID, "AVAILABLE");
 	}
 	
 	public void performMaintenance() {
 		// change status in DB to UNDER_MAINTENANCE
-		DatabaseMethods.updateRow();
+		DatabaseMethods.performMaintenance(this.propertyID);
 	}
 	
 	public void completeMaintenance() {
 		// change status in DB to AVAILABLE
-		DatabaseMethods.updateRow();
+		DatabaseMethods.completeMaintenance(this.propertyID, new DateTime());
 	}
 	
 	public String getPropertyID() {
