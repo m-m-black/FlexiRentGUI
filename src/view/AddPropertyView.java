@@ -1,6 +1,5 @@
 package view;
 
-import java.awt.Desktop;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -26,7 +25,6 @@ public class AddPropertyView extends BorderPane {
 	private static final int MAX_CHARS = 100;
 	GridPane form = new GridPane();
 	Stage stage;
-	private Desktop desktop = Desktop.getDesktop();
 	
 	public AddPropertyView() {
 		this.setStyle("-fx-background-color: white");
@@ -101,6 +99,7 @@ public class AddPropertyView extends BorderPane {
 				File file = imageChooser.showOpenDialog(stage);
 				if (file != null) {
 					saveFile(file);
+					// change button to text displaying image URL
 				}
 			}
 		});
