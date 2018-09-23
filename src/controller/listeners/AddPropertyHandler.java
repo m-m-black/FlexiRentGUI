@@ -29,13 +29,14 @@ public class AddPropertyHandler implements EventHandler<ActionEvent> {
 
 	@Override
 	public void handle(ActionEvent e) {
+		// call RentalProperty constructor, passing in values from TextField's etc.
 		System.out.println(type.getSelectionModel().getSelectedItem());
 		System.out.println(streetNumber.getText());
 		System.out.println(streetName.getText());
 		System.out.println(suburb.getText());
 		System.out.println(bedrooms.getSelectionModel().getSelectedItem());
 		System.out.println(description.getText());
-		//System.out.println(image.getName());
+		// new RentalProperty(args);
 	}
 
 }

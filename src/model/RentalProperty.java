@@ -10,8 +10,8 @@ public abstract class RentalProperty {
 	private String streetName;
 	private String suburb;
 	private int numBedrooms;
-	private String type;
-	private String status;
+	private PropertyType type;
+	private PropertyStatus status;
 	private int numRecords;
 	private DateTime lastMaintenanceDate;
 	private String description;
@@ -19,7 +19,7 @@ public abstract class RentalProperty {
 	
 	// Constructor
 	public RentalProperty(String propertyID, int streetNumber, String streetName, String suburb,
-			int numBedrooms, String type, String status, String description, String image) {
+			int numBedrooms, PropertyType type, PropertyStatus status, String description, String image) {
 		// create new RentalProperty record in DB
 		String values = "'" + propertyID + "', " + streetNumber + ", '" + streetName + "', '" + suburb + 
 				"', " + numBedrooms + ", '" + type + "', '" + status + "', " + 0 + 
@@ -90,16 +90,16 @@ public abstract class RentalProperty {
 	public void setNumBedrooms(int numBedrooms) {
 		this.numBedrooms = numBedrooms;
 	}
-	public String getType() {
+	public PropertyType getType() {
 		return type;
 	}
-	public void setType(String type) {
+	public void setType(PropertyType type) {
 		this.type = type;
 	}
-	public String getStatus() {
+	public PropertyStatus getStatus() {
 		return status;
 	}
-	public void setStatus(String status) {
+	public void setStatus(PropertyStatus status) {
 		this.status = status;
 	}
 	public int getNumRecords() {
