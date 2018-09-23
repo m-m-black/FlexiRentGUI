@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import controller.listeners.AddPropertyHandler;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -104,7 +105,10 @@ public class AddPropertyView extends BorderPane {
 			}
 		});
 		
+		// Pass elements to AddPropertyHandler when addButton clicked
 		Button addButton = new Button("Add Property");
+		addButton.setOnAction(new AddPropertyHandler(typeChoice, streetNumberTextField, streetNameTextField, 
+				suburbTextField, bedroomsChoice, descriptionTextArea));
 		form.add(addButton, 1, 8);
 	}
 	
