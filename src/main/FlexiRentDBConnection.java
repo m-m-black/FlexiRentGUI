@@ -13,8 +13,7 @@ public class FlexiRentDBConnection {
    	 //use try-with-resources Statement
    	 try (Connection con = getConnection(DB_NAME)) {
    		 
-   		 System.out.println("Connection to database " 
-+ DB_NAME + " created successfully");
+   		 System.out.println("Connection to database " + DB_NAME + " created successfully");
    		 
    	 } catch (Exception e) {
    		 System.out.println(e.getMessage());

@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import model.DateTime;
 
@@ -142,6 +144,41 @@ public class DatabaseMethods {
 			System.out.println(e.getMessage());
 		}
 		return recordID;
+	}
+	
+	public static ArrayList<HashMap<String, String>> getProperties() {
+		final String DB_NAME = "flexiRentDB";
+		final String TABLE_NAME = "RENTAL_PROPERTY";
+		// ArrayList to store temporary RentalProperty objects, where each object is represented as a HashMap
+		ArrayList<HashMap<String, String>> propertiesResultSets = new ArrayList<HashMap<String, String>>();
+		try (Connection con = FlexiRentDBConnection.getConnection(DB_NAME);
+				Statement stmt = con.createStatement();
+				) {
+			String query = "SELECT * FROM " + TABLE_NAME;
+			try (ResultSet resultSet = stmt.executeQuery(query)) {
+				while (resultSet.next()) {
+					// Build HashMap from each DB row, add to ArrayList
+					HashMap<String, String> p = new HashMap<String, String>();
+					p.put("propertyID", resultSet.getString(1));
+					p.put("streetNumber", resultSet.getString(2));
+					p.put("streetName", resultSet.getString(3));
+					p.put("suburb", resultSet.getString(4));
+					p.put("numBedrooms", resultSet.getString(5));
+					p.put("type", resultSet.getString(6));
+					p.put("status", resultSet.getString(7));
+					p.put("numRecords", resultSet.getString(8));
+					p.put("lastMaintenanceDate", resultSet.getString(9));
+					p.put("description", resultSet.getString(10));
+					p.put("image", resultSet.getString(11));
+					propertiesResultSets.add(p);
+				}
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return propertiesResultSets;
 	}
 
 }

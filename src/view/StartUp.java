@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import model.PopulatePropertyList;
 
 public class StartUp extends Application {
 	
@@ -16,6 +17,9 @@ public class StartUp extends Application {
 		pane.setTop(new TopMenu());
 		pane.setLeft(new SideMenu(width * 0.1));
 		pane.setCenter(new MainProgramWindow());
+		
+		PopulatePropertyList list = new PopulatePropertyList();
+		list.populate();
 		
 		Scene scene = new Scene(pane, width, height);
 		

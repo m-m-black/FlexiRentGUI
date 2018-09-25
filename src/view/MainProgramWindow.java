@@ -1,9 +1,11 @@
 package view;
 
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.StackPane;
 
 public class MainProgramWindow extends StackPane {
 	
+	private static ScrollPane homeScroller;
 	private static HomeView home;
 	private static AddPropertyView addProperty;
 	private static RentPropertyView rentProperty;
@@ -13,17 +15,19 @@ public class MainProgramWindow extends StackPane {
 	public MainProgramWindow() {
 		this.setStyle("-fx-background-color: white");
 		home = new HomeView();
+		homeScroller = new ScrollPane();
+		homeScroller.setContent(home);
 		addProperty = new AddPropertyView();
 		rentProperty = new RentPropertyView();
 		returnProperty = new ReturnPropertyView();
 		maintainProperty = new PropertyMaintenanceView();
-		this.getChildren().addAll(home, addProperty, rentProperty, returnProperty, maintainProperty);
-		home.toFront();
+		this.getChildren().addAll(homeScroller, addProperty, rentProperty, returnProperty, maintainProperty);
+		homeScroller.toFront();
 	}
 	
 	public static void setWindow(String view) {
 		switch (view) {
-			case "Home": 				home.toFront();
+			case "Home": 				homeScroller.toFront();
 										break;
 			case "Add Property":			addProperty.toFront();
 										break;
@@ -34,6 +38,10 @@ public class MainProgramWindow extends StackPane {
 			case "Property Maintenance":	maintainProperty.toFront();
 										break;
 		}
+	}
+	
+	public static HomeView getHomeView() {
+		return home;
 	}
 
 }
