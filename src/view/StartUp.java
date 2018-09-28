@@ -14,7 +14,7 @@ public class StartUp extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		BorderPane pane = new BorderPane();
-		pane.setTop(new TopMenu());
+		pane.setTop(new TopMenu(primaryStage));
 		pane.setLeft(new SideMenu(width * 0.1));
 		pane.setCenter(new MainProgramWindow());
 		

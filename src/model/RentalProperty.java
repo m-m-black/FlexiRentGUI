@@ -28,6 +28,14 @@ public abstract class RentalProperty {
 		
 	}
 	
+	// toString method
+	@Override
+	public String toString() {
+		return propertyID + ":" + streetNumber + ":" + streetName + ":" + suburb + ":" + 
+				type + ":" + numBedrooms + ":" + status + ":" + numRecords + ":" + lastMaintenanceDate + ":" + 
+				image + ":" + description;
+	}
+	
 	// Rent method
 	public void rent(String recordID, String propertyID, String customerID, DateTime rentDate, 
 			DateTime estReturnDate) {
