@@ -180,5 +180,40 @@ public class DatabaseMethods {
 		}
 		return propertiesResultSets;
 	}
+	
+	public static ArrayList<String> getAllRows() {
+		final String DB_NAME = "flexiRentDB";
+		// ArrayList to store a String for each row
+		ArrayList<String> rows = new ArrayList<String>();
+		try (Connection con = FlexiRentDBConnection.getConnection(DB_NAME);
+				Statement stmt = con.createStatement();
+				) {
+			String query = "SELECT * FROM RENTAL_PROPERTY";
+			try (ResultSet resultSet = stmt.executeQuery(query)) {
+				while (resultSet.next()) {
+					String row = "";
+					// build String with ":" separator for each row
+					row += resultSet.getString(1) + ":";
+					row += resultSet.getString(2) + ":";
+					row += resultSet.getString(3) + ":";
+					row += resultSet.getString(4) +":";
+					row += resultSet.getString(6) + ":";
+					row += resultSet.getString(5) + ":";
+					row += resultSet.getString(7) + ":";
+					if (resultSet.getString(6).compareTo("Premium Suite") == 0) {
+						row += resultSet.getString(9) + ":";
+					}
+					row += resultSet.getString(11) + ":";
+					row += resultSet.getString(10);
+					rows.add(row);
+				}
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+ 		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return rows;
+	}
 
 }
