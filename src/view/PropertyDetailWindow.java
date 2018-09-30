@@ -34,8 +34,6 @@ public class PropertyDetailWindow extends GridPane {
 	private static GridPane buttonsView;
 	private static RentView rentView;
 	private static ReturnView returnView;
-	private static MaintainView maintainView;
-	private static CompleteView completeView;
 	
 	public PropertyDetailWindow(HashMap<String, String> property) {
 		this.property = property;
@@ -115,13 +113,12 @@ public class PropertyDetailWindow extends GridPane {
 		buttonsView = new GridPane();
 		buttonsView.setHgap(10);
 		buttonsView.setVgap(10);
-		buttonsStack.getChildren().addAll(buttonsView, rentView, returnView, maintainView, completeView);
+		buttonsStack.getChildren().addAll(buttonsView, rentView, returnView);
 		Button rentButton = new Button("Rent");
 		Button returnButton = new Button("Return");
 		Button maintainButton = new Button("Maintenance");
 		Button completeButton = new Button("Complete Maintenance");
 		PropertyDetailController controller = new PropertyDetailController();
-		//rentButton.setOnAction(e -> AlertWindow.show("ERROR"));
 		rentButton.setOnAction(controller);
 		returnButton.setOnAction(controller);
 		maintainButton.setOnAction(controller);
@@ -136,12 +133,8 @@ public class PropertyDetailWindow extends GridPane {
 	private void makeSubViews() {
 		rentView = new RentView();
 		returnView = new ReturnView();
-		maintainView = new MaintainView();
-		completeView = new CompleteView();
 		rentView.setVisible(false);
 		returnView.setVisible(false);
-		maintainView.setVisible(false);
-		completeView.setVisible(false);
 	}
 	
 	public static GridPane getButtonsView() {
@@ -154,14 +147,6 @@ public class PropertyDetailWindow extends GridPane {
 	
 	public static ReturnView getReturnView() {
 		return returnView;
-	}
-	
-	public static MaintainView getMaintainView() {
-		return maintainView;
-	}
-	
-	public static CompleteView getCompleteView() {
-		return completeView;
 	}
 	
 	public static String getStatus() {

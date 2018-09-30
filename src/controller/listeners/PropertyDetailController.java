@@ -3,7 +3,9 @@ package controller.listeners;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
+import model.PropertyStatus;
 import view.AlertWindow;
+import view.ConfirmationWindow;
 import view.PropertyDetailWindow;
 
 public class PropertyDetailController implements EventHandler<ActionEvent> {
@@ -24,38 +26,46 @@ public class PropertyDetailController implements EventHandler<ActionEvent> {
 	}
 	
 	public void handleRent() {
-		if (PropertyDetailWindow.getStatus().compareTo("Available") == 0) {
-			AlertWindow.show("Not available");
-		} else {
+		if (PropertyDetailWindow.getStatus().compareTo(PropertyStatus.Available.toString()) == 0) {
 			PropertyDetailWindow.getRentView().setVisible(true);
 			PropertyDetailWindow.getButtonsView().setVisible(false);
 			PropertyDetailWindow.getRentView().toFront();
+		} else {
+			AlertWindow.show("Property is not available for rent");
 		}
 	}
 	
 	public void handleReturn() {
-		PropertyDetailWindow.getReturnView().setVisible(true);
-		PropertyDetailWindow.getButtonsView().setVisible(false);
-		PropertyDetailWindow.getReturnView().toFront();
+		if (PropertyDetailWindow.getStatus().compareTo(PropertyStatus.Rented.toString()) == 0) {
+			PropertyDetailWindow.getReturnView().setVisible(true);
+			PropertyDetailWindow.getButtonsView().setVisible(false);
+			PropertyDetailWindow.getReturnView().toFront();
+		} else {
+			AlertWindow.show("Property is not currently being rented");
+		}
 	}
 	
 	public void handleMaintain() {
-		PropertyDetailWindow.getMaintainView().setVisible(true);
-		PropertyDetailWindow.getButtonsView().setVisible(false);
-		PropertyDetailWindow.getMaintainView().toFront();
+		if (PropertyDetailWindow.getStatus().compareTo(PropertyStatus.Available.toString()) == 0) {
+			// set property status to UnderMaintenance
+			ConfirmationWindow.show("Property is now under maintenance");
+		} else {
+			AlertWindow.show("Property is not available for maintenance");
+		}
 	}
 	
 	public void handleComplete() {
-		PropertyDetailWindow.getCompleteView().setVisible(true);
-		PropertyDetailWindow.getButtonsView().setVisible(false);
-		PropertyDetailWindow.getCompleteView().toFront();
+		if (PropertyDetailWindow.getStatus().compareTo(PropertyStatus.UnderMaintenance.toString()) == 0) {
+			// set property status to available
+			ConfirmationWindow.show("Maintenance is not complete");
+		} else {
+			AlertWindow.show("Property is not currently under maintenance");
+		}
 	}
 	
 	public static void setNotVisible() {
 		PropertyDetailWindow.getRentView().setVisible(false);
 		PropertyDetailWindow.getReturnView().setVisible(false);
-		PropertyDetailWindow.getMaintainView().setVisible(false);
-		PropertyDetailWindow.getCompleteView().setVisible(false);
 	}
 
 }
