@@ -3,6 +3,7 @@ package view;
 import java.io.File;
 import java.util.HashMap;
 
+import controller.listeners.PropertyDetailController;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -21,7 +22,7 @@ public class PropertyDetailWindow extends GridPane {
 	private String suburb;
 	private String numBedrooms;
 	private String type;
-	private String status;
+	private static String status;
 	private String lastMaintenanceDate;
 	private String description;
 	private String image;
@@ -30,7 +31,11 @@ public class PropertyDetailWindow extends GridPane {
 	private ScrollPane recordsScroller;
 	private VBox recordsView;
 	private StackPane buttonsStack;
-	private GridPane buttonsView;
+	private static GridPane buttonsView;
+	private static RentView rentView;
+	private static ReturnView returnView;
+	private static MaintainView maintainView;
+	private static CompleteView completeView;
 	
 	public PropertyDetailWindow(HashMap<String, String> property) {
 		this.property = property;
@@ -54,7 +59,7 @@ public class PropertyDetailWindow extends GridPane {
 		this.suburb = property.get("suburb");
 		this.numBedrooms = property.get("numBedrooms");
 		this.type = property.get("type");
-		this.status = property.get("status");
+		status = property.get("status");
 		this.lastMaintenanceDate = property.get("lastMaintenanceDate");
 		this.description = property.get("description");
 		this.image = property.get("image");
@@ -105,20 +110,62 @@ public class PropertyDetailWindow extends GridPane {
 	}
 	
 	private void makeButtons() {
+		makeSubViews();
 		buttonsStack = new StackPane();
 		buttonsView = new GridPane();
 		buttonsView.setHgap(10);
 		buttonsView.setVgap(10);
-		buttonsStack.getChildren().add(buttonsView);
+		buttonsStack.getChildren().addAll(buttonsView, rentView, returnView, maintainView, completeView);
 		Button rentButton = new Button("Rent");
 		Button returnButton = new Button("Return");
 		Button maintainButton = new Button("Maintenance");
 		Button completeButton = new Button("Complete Maintenance");
+		PropertyDetailController controller = new PropertyDetailController();
+		//rentButton.setOnAction(e -> AlertWindow.show("ERROR"));
+		rentButton.setOnAction(controller);
+		returnButton.setOnAction(controller);
+		maintainButton.setOnAction(controller);
+		completeButton.setOnAction(controller);
 		buttonsView.add(rentButton, 0, 0);
 		buttonsView.add(maintainButton, 1, 0);
 		buttonsView.add(returnButton, 0, 1);
 		buttonsView.add(completeButton, 1, 1);
 		buttonsView.toFront();
+	}
+	
+	private void makeSubViews() {
+		rentView = new RentView();
+		returnView = new ReturnView();
+		maintainView = new MaintainView();
+		completeView = new CompleteView();
+		rentView.setVisible(false);
+		returnView.setVisible(false);
+		maintainView.setVisible(false);
+		completeView.setVisible(false);
+	}
+	
+	public static GridPane getButtonsView() {
+		return buttonsView;
+	}
+	
+	public static RentView getRentView() {
+		return rentView;
+	}
+	
+	public static ReturnView getReturnView() {
+		return returnView;
+	}
+	
+	public static MaintainView getMaintainView() {
+		return maintainView;
+	}
+	
+	public static CompleteView getCompleteView() {
+		return completeView;
+	}
+	
+	public static String getStatus() {
+		return status;
 	}
 
 }
