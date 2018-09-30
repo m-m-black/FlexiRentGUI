@@ -23,11 +23,7 @@ public class PopulatePropertyList {
 	public void populate() {
 		for (HashMap<String, String> property: properties) {
 			// create new PropertyListItem using details from each RentalProperty, and add to grid
-			String imageURL = property.get("image");
-			String titleText = property.get("streetNumber") + " " + property.get("streetName") + ", " + 
-					property.get("suburb");
-			String descriptionText = property.get("description");
-			view.addItem(new PropertyListItem(imageURL, titleText, descriptionText), 0, rowNum);
+			view.addItem(new PropertyListItem(property), 0, rowNum);
 			rowNum++;
 		}
 	}

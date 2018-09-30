@@ -3,6 +3,7 @@ package controller.listeners;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import view.MainProgramWindow;
+import view.StartUp;
 
 public class SideMenuClickHandler implements EventHandler<MouseEvent> {
 	
@@ -14,6 +15,7 @@ public class SideMenuClickHandler implements EventHandler<MouseEvent> {
 
 	@Override
 	public void handle(MouseEvent e) {
+		StartUp.switchView(true, null);
 		switch (label) {
 			case "Home":					System.out.println(label);
 										MainProgramWindow.setWindow("Home");

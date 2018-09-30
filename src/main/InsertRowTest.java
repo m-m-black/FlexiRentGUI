@@ -13,7 +13,7 @@ public class InsertRowTest {
 				Statement stmt = con.createStatement();
 		) {
 			String query = "INSERT INTO " + TABLE_NAME + 
-					" VALUES ('a1', 154, 'Station Street', 'Carlton', 2, 'Apartment', 'Available', "
+					" VALUES ('A_002', 154, 'Station Street', 'Carlton', 2, 'Apartment', 'Available', "
 					+ "0, '2018-09-17', 'Victorian terrace house', 'house.jpg')";
 			
 			int result = stmt.executeUpdate(query);

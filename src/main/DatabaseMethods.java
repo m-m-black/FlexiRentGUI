@@ -215,5 +215,26 @@ public class DatabaseMethods {
 		}
 		return rows;
 	}
+	
+	public static ArrayList<String> getIDs() {
+		ArrayList<String> ids = new ArrayList<String>();
+		final String DB_NAME = "flexiRentDB";
+		final String TABLE_NAME = "RENTAL_PROPERTY";
+		try (Connection con = FlexiRentDBConnection.getConnection(DB_NAME);
+				Statement stmt = con.createStatement();
+				) {
+			String query = "SELECT propertyID FROM " + TABLE_NAME;
+			try (ResultSet resultSet = stmt.executeQuery(query)) {
+				while (resultSet.next()) {
+					ids.add(resultSet.getString(1));
+				}
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+ 		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return ids;
+	}
 
 }

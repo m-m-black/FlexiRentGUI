@@ -45,6 +45,8 @@ GRANT DBA TO SA
 SET SCHEMA SYSTEM_LOBS
 INSERT INTO BLOCKS VALUES(0,2147483647,0)
 SET SCHEMA PUBLIC
+INSERT INTO RENTAL_PROPERTY VALUES('A_001',154,'Station Street','Carlton',2,'Apartment','Available',0,'2018-09-17','Victorian terrace house','house.jpg')
+INSERT INTO RENTAL_PROPERTY VALUES('A_002',154,'Station Street','Carlton',2,'Apartment','Available',0,'2018-09-17','Victorian terrace house','house.jpg')
 INSERT INTO RENTAL_PROPERTY VALUES('a1',154,'Station Street','Carlton',2,'Apartment','Available',0,'2018-09-17','Victorian terrace house','house.jpg')
 INSERT INTO RENTAL_PROPERTY VALUES('a2',154,'Station Street','Carlton',2,'Apartment','Available',0,'2018-09-17','Victorian terrace house','house.jpg')
 INSERT INTO RENTAL_PROPERTY VALUES('a3',154,'Station Street','Carlton',2,'Apartment','Available',0,'2018-09-17','Victorian terrace house','house.jpg')
