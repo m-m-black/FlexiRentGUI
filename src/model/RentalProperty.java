@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import model.db.DatabaseMethods;
 import model.db.DateTimeMethods;
+import model.exceptions.DateTimeException;
 import model.exceptions.MaintenanceException;
 import model.exceptions.RentException;
 import model.exceptions.ReturnException;
@@ -68,7 +69,7 @@ public abstract class RentalProperty {
 		// create new RentalRecord in DB
 		new RentalRecord(propertyID, customerID, rentDate, estReturnDate);
 		// update status of this RentalProperty
-		DatabaseMethods.updateStatus(this.propertyID, PropertyStatus.Rented.toString());
+		DatabaseMethods.updateStatus(propertyID, PropertyStatus.Rented.toString());
 
 	}
 	
@@ -83,20 +84,28 @@ public abstract class RentalProperty {
 			DateTimeMethods.dateFromString(record.get("estReturnDate")).getTime()) {
 			lateFee = calculateLateFee(propertyID, record);
 		}
-		// update RentalRecord in DB with actReturnDate, calculate fees
+		// update RentalRecord in DB with actReturnDate and fees
 		DatabaseMethods.updateRecord(recordID, actReturnDate, rentalFee, lateFee);
 		// update RentalProperty status in DB
-		DatabaseMethods.updateStatus(this.propertyID, PropertyStatus.Available.toString());
+		DatabaseMethods.updateStatus(propertyID, PropertyStatus.Available.toString());
 	}
 	
-	public void performMaintenance() throws MaintenanceException {
-		// change status in DB to UNDER_MAINTENANCE
-		DatabaseMethods.performMaintenance(this.propertyID);
+	public void performMaintenance(String propertyID) throws MaintenanceException {
+		// change status in DB to UNDER_MAINTENANCE, if AVAILABLE
+		if (DatabaseMethods.getStatus(propertyID).equals(PropertyStatus.Available.toString())) {
+			DatabaseMethods.performMaintenance(propertyID, PropertyStatus.UnderMaintenance.toString());
+		} else {
+			throw new MaintenanceException("This property is not currently available for maintenance.");
+		}
 	}
 	
-	public void completeMaintenance() throws MaintenanceException {
-		// change status in DB to AVAILABLE
-		DatabaseMethods.completeMaintenance(this.propertyID, new DateTime());
+	public void completeMaintenance(String propertyID, String completionDate) throws MaintenanceException, DateTimeException {
+		// change status in DB to AVAILABLE, if UNDER_MAINTENANCE
+		if (DatabaseMethods.getStatus(propertyID).equals(PropertyStatus.UnderMaintenance.toString())) {
+			DatabaseMethods.updateStatus(propertyID, PropertyStatus.Available.toString());
+		} else {
+			throw new MaintenanceException("This property is not currently under maintenance.");
+		}
 	}
 	
 	private double calculateRentalFee(String propertyID, HashMap<String, String> recordMap) {

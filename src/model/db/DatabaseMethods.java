@@ -30,14 +30,14 @@ public class DatabaseMethods {
 		}
 	}
 	
-	public static void performMaintenance(String propertyID) {
+	public static void performMaintenance(String propertyID, String status) {
 		final String DB_NAME = "flexiRentDB";
 		final String TABLE_NAME = "RENTAL_PROPERTY";
 		try (Connection con = FlexiRentDBConnection.getConnection(DB_NAME);
 				Statement stmt = con.createStatement();
 				) {
 			String query = "UPDATE " + TABLE_NAME +
-					" SET status = 'UNDER_MAINTENANCE'" +
+					" SET status = '" + status + "'" +
 					" WHERE propertyID LIKE '" + propertyID + "'";
 			int result = stmt.executeUpdate(query);
 			System.out.println("Update table " + TABLE_NAME + " executed successfully");
@@ -55,8 +55,7 @@ public class DatabaseMethods {
 				Statement stmt = con.createStatement();
 				) {
 			String query = "UPDATE " + TABLE_NAME +
-					" SET status = 'AVAILABLE'," + 
-					" lastMaintenanceDate = '" + completionDate.toString() +
+					" SET lastMaintenanceDate = '" + completionDate.toString() +
 					"' WHERE propertyID LIKE '" + propertyID + "'";
 			int result = stmt.executeUpdate(query);
 			System.out.println("Update table " + TABLE_NAME + " executed successfully");
@@ -303,6 +302,46 @@ public class DatabaseMethods {
 			System.out.println(e.getMessage());
 		}
 		return numBedrooms;
+	}
+	
+
+	public static String getStatus(String propertyID) {
+		final String DB_NAME = "flexiRentDB";
+		final String TABLE_NAME = "RENTAL_PROPERTY";
+		String status = "";
+		try (Connection con = FlexiRentDBConnection.getConnection(DB_NAME);
+				Statement stmt = con.createStatement();
+				) {
+			String query = "SELECT status FROM " + TABLE_NAME + " WHERE propertyID LIKE '" + propertyID + "'";
+			try (ResultSet resultSet = stmt.executeQuery(query)) {
+				status = resultSet.getString(1);
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return status;
+	}
+	
+	public static String getLastMaintenanceDate(String propertyID) {
+		final String DB_NAME = "flexiRentDB";
+		final String TABLE_NAME = "RENTAL_PROPERTY";
+		String lastMaintenanceDate = "";
+		try (Connection con = FlexiRentDBConnection.getConnection(DB_NAME);
+				Statement stmt = con.createStatement();
+				) {
+			String query = "SELECT lastMaintenanceDate FROM " + 
+				TABLE_NAME + " WHERE propertyID LIKE '" + propertyID + "'";
+			try (ResultSet resultSet = stmt.executeQuery(query)) {
+				lastMaintenanceDate = resultSet.getString(1);
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return lastMaintenanceDate;
 	}
 
 }
