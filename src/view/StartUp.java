@@ -51,9 +51,9 @@ public class StartUp extends Application {
 	public static void setHome(boolean home) {
 		isHome = home;
 	}
-
-	public static void main(String[] args) {
-		Application.launch(args);
+	
+	public static void run() {
+		Application.launch();
 	}
 
 }
