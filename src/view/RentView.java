@@ -1,6 +1,7 @@
 package view;
 
 import controller.listeners.BackButtonHandler;
+import controller.listeners.RentButtonHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -40,6 +41,8 @@ public class RentView extends BorderPane {
 		backButton.setOnAction(new BackButtonHandler());
 		form.add(backButton, 0, 3);
 		Button rentButton = new Button("Rent");
+		rentButton.setOnAction(new RentButtonHandler(customerField, 
+				rentDatePicker, returnDatePicker));
 		form.add(rentButton, 1, 3);
 	}
 

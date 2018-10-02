@@ -1,5 +1,8 @@
 package model;
 
+import model.db.DatabaseMethods;
+import model.db.DateTimeMethods;
+
 public class RentalRecord {
 	
 	// Instance variable
@@ -11,7 +14,15 @@ public class RentalRecord {
 	private double lateFee;
 	
 	// Constructor
-	public RentalRecord() {}
+	public RentalRecord(String propertyID, String customerID, String rentDate, String estReturnDate) {
+		this.recordID = propertyID + "_" + customerID + "_" 
+				+ DateTimeMethods.dateFromString(rentDate).getEightDigitDate();
+		this.rentDate = DateTimeMethods.dateFromString(rentDate);
+		this.estReturnDate = DateTimeMethods.dateFromString(estReturnDate);
+		String values = "'" + this.recordID + "', '" + propertyID + "', '" + this.rentDate.toString() + "', '" 
+		+ this.estReturnDate.toString() + "'";
+		DatabaseMethods.insertRow("RENTAL_RECORD", values);
+	}
 	
 	public String getRecordID() {
 		return recordID;

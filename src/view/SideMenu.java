@@ -18,7 +18,7 @@ public class SideMenu extends BorderPane {
 	public SideMenu(double width) {
 		topLabels = new VBox();
 		bottomLabels = new VBox();
-		labels = new FlowPane[5];
+		labels = new FlowPane[2];
 		
 		this.setTop(topLabels);
 		this.setBottom(bottomLabels);
@@ -41,15 +41,15 @@ public class SideMenu extends BorderPane {
 		labels[1] = new FlowPane();
 		labels[1].getChildren().add(new Label("Add Property"));
 		labels[1].getChildren().get(0).setId("Add Property");
-		labels[2] = new FlowPane();
-		labels[2].getChildren().add(new Label("Rent Property"));
-		labels[2].getChildren().get(0).setId("Rent Property");
-		labels[3] = new FlowPane();
-		labels[3].getChildren().add(new Label("Return Property"));
-		labels[3].getChildren().get(0).setId("Return Property");
-		labels[4] = new FlowPane();
-		labels[4].getChildren().add(new Label("Property Maintenance"));
-		labels[4].getChildren().get(0).setId("Property Maintenance");
+//		labels[2] = new FlowPane();
+//		labels[2].getChildren().add(new Label("Rent Property"));
+//		labels[2].getChildren().get(0).setId("Rent Property");
+//		labels[3] = new FlowPane();
+//		labels[3].getChildren().add(new Label("Return Property"));
+//		labels[3].getChildren().get(0).setId("Return Property");
+//		labels[4] = new FlowPane();
+//		labels[4].getChildren().add(new Label("Property Maintenance"));
+//		labels[4].getChildren().get(0).setId("Property Maintenance");
 	}
 	
 	private void addLabels() {

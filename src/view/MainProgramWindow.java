@@ -8,9 +8,6 @@ public class MainProgramWindow extends StackPane {
 	private static ScrollPane homeScroller;
 	private static HomeView home;
 	private static AddPropertyView addProperty;
-	private static RentPropertyView rentProperty;
-	private static ReturnPropertyView returnProperty;
-	private static PropertyMaintenanceView maintainProperty;
 	
 	public MainProgramWindow() {
 		this.setStyle("-fx-background-color: white");
@@ -18,10 +15,7 @@ public class MainProgramWindow extends StackPane {
 		homeScroller = new ScrollPane();
 		homeScroller.setContent(home);
 		addProperty = new AddPropertyView();
-		rentProperty = new RentPropertyView();
-		returnProperty = new ReturnPropertyView();
-		maintainProperty = new PropertyMaintenanceView();
-		this.getChildren().addAll(homeScroller, addProperty, rentProperty, returnProperty, maintainProperty);
+		this.getChildren().addAll(homeScroller, addProperty);
 		homeScroller.toFront();
 	}
 	
@@ -30,12 +24,6 @@ public class MainProgramWindow extends StackPane {
 			case "Home": 				homeScroller.toFront();
 										break;
 			case "Add Property":			addProperty.toFront();
-										break;
-			case "Rent Property":		rentProperty.toFront();
-										break;
-			case "Return Property":		returnProperty.toFront();
-										break;
-			case "Property Maintenance":	maintainProperty.toFront();
 										break;
 		}
 	}

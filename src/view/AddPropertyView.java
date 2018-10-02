@@ -101,6 +101,7 @@ public class AddPropertyView extends BorderPane {
 				if (file != null) {
 					saveFile(file);
 					// change button to text displaying image URL
+					imageButton.setText(file.getName());
 				}
 			}
 		});
@@ -108,7 +109,7 @@ public class AddPropertyView extends BorderPane {
 		// Pass elements to AddPropertyHandler when addButton clicked
 		Button addButton = new Button("Add Property");
 		addButton.setOnAction(new AddPropertyHandler(typeChoice, streetNumberTextField, streetNameTextField, 
-				suburbTextField, bedroomsChoice, descriptionTextArea));
+				suburbTextField, bedroomsChoice, descriptionTextArea, imageButton));
 		form.add(addButton, 1, 8);
 	}
 	

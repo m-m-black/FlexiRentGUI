@@ -1,2 +1,3 @@
 /*C3*/SET SCHEMA PUBLIC
+CREATE TABLE rental_record (recordID VARCHAR(6) NOT NULL,propertyID VARCHAR(6) NOT NULL,customerID VARCHAR(6) NOT NULL,rentDate VARCHAR(10) NOT NULL,estReturnDate VARCHAR(10) NOT NULL,actReturnDate VARCHAR(10),rentalFee REAL,lateFee REAL,PRIMARY KEY (recordID),FOREIGN KEY (propertyID) REFERENCES rental_property(propertyID))
 DISCONNECT

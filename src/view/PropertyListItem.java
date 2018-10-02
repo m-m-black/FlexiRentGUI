@@ -6,7 +6,7 @@ import java.util.HashMap;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -16,8 +16,8 @@ public class PropertyListItem extends HBox {
 	
 	private ImageView imageBox;
 	private VBox titleBox;
-	private TextField description;
-	private TextField title;
+	private Label description;
+	private Label title;
 	private Button detailsButton;
 	private HashMap<String, String> property;
 	private String propertyID;
@@ -27,7 +27,7 @@ public class PropertyListItem extends HBox {
 	
 	public PropertyListItem(HashMap<String, String> property) {
 		this.property = property;
-		setStyle("-fx-background-color: lightblue");
+		//setStyle("-fx-background-color: lightblue");
 		extractInfo();
 		makeItem(propertyID, imageURL, titleText, descriptionText);
 		getChildren().addAll(imageBox, titleBox, detailsButton);
@@ -52,8 +52,8 @@ public class PropertyListItem extends HBox {
 	}
 	
 	private void makeTitle(String titleText, String descriptionText) {
-		title = new TextField(titleText);
-		description = new TextField(descriptionText);
+		title = new Label(titleText);
+		description = new Label(descriptionText);
 		titleBox.getChildren().addAll(title, description);
 	}
 	

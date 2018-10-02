@@ -10,7 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import main.DatabaseMethods;
+import model.db.DatabaseMethods;
 
 public class ExportDataController implements EventHandler<ActionEvent>{
 	

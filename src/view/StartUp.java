@@ -13,6 +13,7 @@ public class StartUp extends Application {
 	private int width = 800;
 	private int height = 600;
 	private static MainProgramWindow main;
+	private static PopulatePropertyList list;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -23,7 +24,7 @@ public class StartUp extends Application {
 		pane.setLeft(new SideMenu(width * 0.1));
 		pane.setCenter(main);
 		
-		PopulatePropertyList list = new PopulatePropertyList();
+		list = new PopulatePropertyList();
 		list.populate();
 		
 		Scene scene = new Scene(pane, width, height);
@@ -50,6 +51,10 @@ public class StartUp extends Application {
 
 	public static void setHome(boolean home) {
 		isHome = home;
+	}
+	
+	public static PopulatePropertyList getList() {
+		return list;
 	}
 	
 	public static void run() {

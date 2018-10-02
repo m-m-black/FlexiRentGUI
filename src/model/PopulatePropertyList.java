@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import main.DatabaseMethods;
+import model.db.DatabaseMethods;
 import view.HomeView;
 import view.MainProgramWindow;
 import view.PropertyListItem;
@@ -13,18 +13,23 @@ public class PopulatePropertyList {
 	private HomeView view;
 	private ArrayList<HashMap<String, String>> properties;
 	private int rowNum;
+	private ArrayList<String> currentProperties;
 	
 	public PopulatePropertyList() {
 		this.view = MainProgramWindow.getHomeView();
 		rowNum = 0;
-		fetchProperties();
+		currentProperties = new ArrayList<String>();
 	}
 	
 	public void populate() {
+		fetchProperties();
 		for (HashMap<String, String> property: properties) {
 			// create new PropertyListItem using details from each RentalProperty, and add to grid
-			view.addItem(new PropertyListItem(property), 0, rowNum);
-			rowNum++;
+			if (!(currentProperties.contains(property.get("propertyID")))) {
+				view.addItem(new PropertyListItem(property), 0, rowNum);
+				currentProperties.add(property.get("propertyID"));
+				rowNum++;
+			}
 		}
 	}
 	
