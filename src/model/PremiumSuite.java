@@ -10,14 +10,15 @@ import model.exceptions.RentException;
 
 public class PremiumSuite extends RentalProperty {
 	
-	// Constructor
+	// Constructors
+	public PremiumSuite() {}
+	
 	public PremiumSuite(int streetNumber, String streetName, String suburb, 
 			PropertyType type, PropertyStatus status, String description, String image) {
 		super(streetNumber, streetName, suburb, 3, type, status, description, image);
 	}
 	
-	@Override
-	public void rent(String propertyID, String customerID, String rentDateString, 
+	public static void rent(String propertyID, String customerID, String rentDateString, 
 			String estReturnDateString) throws RentException {
 		// check if maintenance will be due before estimated return date
 		DateTime lastMaintenanceDate = DateTimeMethods.dateFromString(DatabaseMethods.getLastMaintenanceDate(propertyID));
@@ -26,7 +27,7 @@ public class PremiumSuite extends RentalProperty {
 		if (estReturnDate.getTime() > nextMaintenanceDate.getTime()) {
 			throw new RentException("Property cannot be rented as maintenance is due soon");
 		} else {
-			super.rent(propertyID, customerID, rentDateString, estReturnDateString);
+			RentalProperty.rent(propertyID, customerID, rentDateString, estReturnDateString);
 		}
 	}
 	
@@ -49,10 +50,10 @@ public class PremiumSuite extends RentalProperty {
 	}
 	
 	@Override
-	protected double calculateLateFee(String propertyID, HashMap<String, String> recordMap) {
+	protected double calculateLateFee(String propertyID, HashMap<String, String> recordMap, String actReturnDateString) {
 		HashMap<String, String> record = recordMap;
 		DateTime estReturnDate = DateTimeMethods.dateFromString(record.get("estReturnDate"));
-		DateTime actReturnDate = DateTimeMethods.dateFromString(record.get("actReturnDate"));
+		DateTime actReturnDate = DateTimeMethods.dateFromString(actReturnDateString);
 		int numDays = DateTime.diffDays(actReturnDate, estReturnDate);
 		return numDays * 662;
 	}

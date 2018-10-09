@@ -57,6 +57,11 @@ public class StartUp extends Application {
 		return list;
 	}
 	
+	public static void refresh() {
+		//list = new PopulatePropertyList();
+		list.populate();
+	}
+	
 	public static void run() {
 		Application.launch();
 	}

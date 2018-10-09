@@ -5,10 +5,34 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import model.Apartment;
+import model.DateTime;
+import model.PremiumSuite;
 import model.PropertyStatus;
+import model.PropertyType;
+import model.RentalProperty;
+import model.exceptions.DateTimeException;
+import model.exceptions.MaintenanceException;
 import view.PropertyDetailWindow;
 
 public class PropertyDetailController implements EventHandler<ActionEvent> {
+	
+	private PropertyDetailWindow window;
+	private String propertyID;
+	@SuppressWarnings("unused")
+	private String type;
+	private RentalProperty r;
+	
+	public PropertyDetailController(PropertyDetailWindow window, String propertyID, String type) {
+		this.window = window;
+		this.propertyID = propertyID;
+		this.type = type;
+		if (type.compareTo(PropertyType.Apartment.toString()) == 0) {
+			r = new Apartment();
+		} else if (type.compareTo(PropertyType.PremiumSuite.toString()) == 0) {
+			r = new PremiumSuite();
+		}
+	}
 	
 	@Override
 	public void handle(ActionEvent e) {
@@ -48,23 +72,28 @@ public class PropertyDetailController implements EventHandler<ActionEvent> {
 	}
 	
 	public void handleMaintain() {
-		if (PropertyDetailWindow.getStatus().compareTo(PropertyStatus.Available.toString()) == 0) {
-			// set property status to UnderMaintenance
+		try {
+			r.performMaintenance(propertyID);
 			Alert alert = new Alert(AlertType.INFORMATION, "Property is now under maintenance");
 			alert.showAndWait();
-		} else {
-			Alert alert = new Alert(AlertType.WARNING, "Property is not available for maintenance");
+			window.updateView();
+		} catch (MaintenanceException e) {
+			Alert alert = new Alert(AlertType.WARNING, e.getMessage());
 			alert.showAndWait();
 		}
 	}
 	
 	public void handleComplete() {
-		if (PropertyDetailWindow.getStatus().compareTo(PropertyStatus.UnderMaintenance.toString()) == 0) {
-			// set property status to available
+		try {
+			r.completeMaintenance(propertyID, new DateTime().toString());
 			Alert alert = new Alert(AlertType.INFORMATION, "Maintenance is now complete");
 			alert.showAndWait();
-		} else {
-			Alert alert = new Alert(AlertType.WARNING, "Property is not currently under maintenance");
+			window.updateView();
+		} catch (DateTimeException e1) {
+			Alert alert = new Alert(AlertType.WARNING, e1.getMessage());
+			alert.showAndWait();
+		} catch (MaintenanceException e2) {
+			Alert alert = new Alert(AlertType.WARNING, e2.getMessage());
 			alert.showAndWait();
 		}
 	}

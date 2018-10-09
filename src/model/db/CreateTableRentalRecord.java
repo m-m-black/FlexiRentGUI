@@ -15,9 +15,8 @@ public class CreateTableRentalRecord {
 				Statement stmt = con.createStatement();
 		) {
 			int result = stmt.executeUpdate("CREATE TABLE rental_record ("
-										+ "recordID VARCHAR(6) NOT NULL,"
+										+ "recordID VARCHAR(22) NOT NULL,"
 										+ "propertyID VARCHAR(6) NOT NULL,"
-										+ "customerID VARCHAR(6) NOT NULL,"
 										+ "rentDate VARCHAR(10) NOT NULL,"
 										+ "estReturnDate VARCHAR(10) NOT NULL,"
 										+ "actReturnDate VARCHAR(10),"

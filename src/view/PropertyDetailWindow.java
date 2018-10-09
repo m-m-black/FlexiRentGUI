@@ -12,6 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import model.db.DatabaseMethods;
 
 public class PropertyDetailWindow extends GridPane {
 	
@@ -34,6 +35,9 @@ public class PropertyDetailWindow extends GridPane {
 	private static GridPane buttonsView;
 	private static RentView rentView;
 	private static ReturnView returnView;
+	
+	private Label maintainText;
+	private Label statusText;
 	
 	public PropertyDetailWindow(HashMap<String, String> property) {
 		this.property = property;
@@ -92,11 +96,11 @@ public class PropertyDetailWindow extends GridPane {
 		detailsView.add(descriptionLabel, 0, 4);
 		detailsView.add(descriptionText, 1, 4);
 		Label maintainLabel = new Label("Last maintenance date: ");
-		Label maintainText = new Label(lastMaintenanceDate);
+		maintainText = new Label(lastMaintenanceDate);
 		detailsView.add(maintainLabel, 0, 5);
 		detailsView.add(maintainText, 1, 5);
 		Label statusLabel = new Label("Status: ");
-		Label statusText = new Label(status);
+		statusText = new Label(status);
 		detailsView.add(statusLabel, 0, 6);
 		detailsView.add(statusText, 1, 6);
 	}
@@ -118,7 +122,7 @@ public class PropertyDetailWindow extends GridPane {
 		Button returnButton = new Button("Return");
 		Button maintainButton = new Button("Maintenance");
 		Button completeButton = new Button("Complete Maintenance");
-		PropertyDetailController controller = new PropertyDetailController();
+		PropertyDetailController controller = new PropertyDetailController(this, propertyID, type);
 		rentButton.setOnAction(controller);
 		returnButton.setOnAction(controller);
 		maintainButton.setOnAction(controller);
@@ -131,10 +135,17 @@ public class PropertyDetailWindow extends GridPane {
 	}
 	
 	private void makeSubViews() {
-		rentView = new RentView();
-		returnView = new ReturnView();
+		rentView = new RentView(this, property.get("propertyID"), type);
+		returnView = new ReturnView(this, property.get("propertyID"), type);
 		rentView.setVisible(false);
 		returnView.setVisible(false);
+	}
+	
+	public void updateView() {
+		this.property = DatabaseMethods.getProperty(property.get("propertyID"));
+		this.extractInfo();
+		maintainText.setText(property.get("lastMaintenanceDate"));
+		statusText.setText(property.get("status"));
 	}
 	
 	public static GridPane getButtonsView() {

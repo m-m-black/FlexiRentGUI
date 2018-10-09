@@ -70,7 +70,7 @@ public class AddPropertyHandler implements EventHandler<ActionEvent> {
 			} else if (type.equals(PropertyType.PremiumSuite)) {
 				new PremiumSuite(streetNumber, streetName, suburb, type, status, description, image);
 			}
-			StartUp.getList().populate();
+			StartUp.refresh();
 			MainProgramWindow.setWindow("Home");
 			Alert alert = new Alert(AlertType.INFORMATION, "Property has been added");
 			alert.showAndWait();

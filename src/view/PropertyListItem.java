@@ -24,10 +24,10 @@ public class PropertyListItem extends HBox {
 	private String imageURL;
 	private String titleText;
 	private String descriptionText;
+	PropertyDetailWindow window;
 	
-	public PropertyListItem(HashMap<String, String> property) {
-		this.property = property;
-		//setStyle("-fx-background-color: lightblue");
+	public PropertyListItem(HashMap<String, String> propertyItem) {
+		this.property = propertyItem;
 		extractInfo();
 		makeItem(propertyID, imageURL, titleText, descriptionText);
 		getChildren().addAll(imageBox, titleBox, detailsButton);
@@ -44,7 +44,7 @@ public class PropertyListItem extends HBox {
 			@Override
 			public void handle(ActionEvent e) {
 				// create new PropertyDetailWindow
-				PropertyDetailWindow window = new PropertyDetailWindow(property);
+				window = new PropertyDetailWindow(property);
 				// switch Home view to PropertyDetailWindow
 				StartUp.switchView(false, window);
 			}
@@ -63,6 +63,10 @@ public class PropertyListItem extends HBox {
 		this.titleText = property.get("streetNumber") + " " + property.get("streetName") + ", " + 
 				property.get("suburb");
 		this.descriptionText = property.get("description");
+	}
+	
+	public void update(HashMap<String, String> propertyItem) {
+		this.property = propertyItem;
 	}
 
 }

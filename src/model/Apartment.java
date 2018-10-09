@@ -9,14 +9,15 @@ import model.exceptions.RentException;
 
 public class Apartment extends RentalProperty {
 	
-	// Constructor
+	// Constructors
+	public Apartment() {}
+	
 	public Apartment(int streetNumber, String streetName, String suburb,
 			int numBedrooms, PropertyType type, PropertyStatus status, String description, String image) {
 		super(streetNumber, streetName, suburb, numBedrooms, type, status, description, image);
 	}
 	
-	@Override
-	public void rent(String propertyID, String customerID, String rentDateString, 
+	public static void rent(String propertyID, String customerID, String rentDateString, 
 			String estReturnDateString) throws RentException {
 		// check which day of week rentDate is, then check if minimum day requirement has been met
 		DateTime rentDate = DateTimeMethods.dateFromString(rentDateString);
@@ -36,15 +37,15 @@ public class Apartment extends RentalProperty {
 		if (numDays > 28) {
 			throw new RentException("An apartment cannot be rented for more than 28 days");
 		}
-		super.rent(propertyID, customerID, rentDateString, estReturnDateString);
+		RentalProperty.rent(propertyID, customerID, rentDateString, estReturnDateString);
 	}
 	
 	@Override
-	protected double calculateLateFee(String propertyID, HashMap<String, String> recordMap) {
+	protected double calculateLateFee(String propertyID, HashMap<String, String> recordMap, String actReturnDateString) {
 		HashMap<String, String> record = recordMap;
 		double rentalRate = getRentalRate(propertyID);
 		DateTime estReturnDate = DateTimeMethods.dateFromString(record.get("estReturnDate"));
-		DateTime actReturnDate = DateTimeMethods.dateFromString(record.get("actReturnDate"));
+		DateTime actReturnDate = DateTimeMethods.dateFromString(actReturnDateString);
 		int numDays = DateTime.diffDays(actReturnDate, estReturnDate);
 		return numDays * (rentalRate * 1.15);
 	}

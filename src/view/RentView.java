@@ -12,8 +12,14 @@ import javafx.scene.layout.GridPane;
 public class RentView extends BorderPane {
 	
 	private GridPane form = new GridPane();
+	private PropertyDetailWindow window;
+	private String propertyID;
+	private String type;
 	
-	public RentView() {
+	public RentView(PropertyDetailWindow window, String propertyID, String type) {
+		this.window = window;
+		this.propertyID = propertyID;
+		this.type = type;
 		makeForm();
 		setCenter(form);
 	}
@@ -41,7 +47,7 @@ public class RentView extends BorderPane {
 		backButton.setOnAction(new BackButtonHandler());
 		form.add(backButton, 0, 3);
 		Button rentButton = new Button("Rent");
-		rentButton.setOnAction(new RentButtonHandler(customerField, 
+		rentButton.setOnAction(new RentButtonHandler(window, propertyID, type, customerField, 
 				rentDatePicker, returnDatePicker));
 		form.add(rentButton, 1, 3);
 	}

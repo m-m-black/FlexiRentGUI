@@ -23,7 +23,9 @@ public abstract class RentalProperty {
 	private String description;
 	private String image;
 	
-	// Constructor
+	// Constructors
+	public RentalProperty() {}
+	
 	public RentalProperty(int streetNumber, String streetName, String suburb,
 			int numBedrooms, PropertyType type, PropertyStatus status, String description, String image) {
 		propertyID = generateID(type);
@@ -64,25 +66,26 @@ public abstract class RentalProperty {
 	}
 	
 	// Rent method
-	public void rent(String propertyID, String customerID, String rentDate, 
+	public static void rent(String propertyID, String customerID, String rentDate, 
 			String estReturnDate) throws RentException {
-		// create new RentalRecord in DB
-		new RentalRecord(propertyID, customerID, rentDate, estReturnDate);
-		// update status of this RentalProperty
-		DatabaseMethods.updateStatus(propertyID, PropertyStatus.Rented.toString());
-
+		if (propertyID.isEmpty() || customerID.isEmpty()) {
+			throw new RentException("Information is missing");
+		} else {
+			new RentalRecord(propertyID, customerID, rentDate, estReturnDate);
+			DatabaseMethods.updateStatus(propertyID, PropertyStatus.Rented.toString());
+		}
 	}
 	
 	public void returnProperty(String propertyID, String actReturnDate) throws ReturnException {
 		// find the current RentalRecord (will have actReturnDate == null)
-		String recordID = DatabaseMethods.getCurrentRecord(this.propertyID);
+		String recordID = DatabaseMethods.getCurrentRecord(propertyID);
 		HashMap<String, String> record = DatabaseMethods.getRentalRecord(recordID);
-		double rentalFee = calculateRentalFee(propertyID, record);
+		double rentalFee = calculateRentalFee(propertyID, record, actReturnDate);
 		double lateFee = 0;
 		// calculate late fee, if necessary
 		if (DateTimeMethods.dateFromString(actReturnDate).getTime() > 
 			DateTimeMethods.dateFromString(record.get("estReturnDate")).getTime()) {
-			lateFee = calculateLateFee(propertyID, record);
+			lateFee = calculateLateFee(propertyID, record, actReturnDate);
 		}
 		// update RentalRecord in DB with actReturnDate and fees
 		DatabaseMethods.updateRecord(recordID, actReturnDate, rentalFee, lateFee);
@@ -95,7 +98,7 @@ public abstract class RentalProperty {
 		if (DatabaseMethods.getStatus(propertyID).equals(PropertyStatus.Available.toString())) {
 			DatabaseMethods.performMaintenance(propertyID, PropertyStatus.UnderMaintenance.toString());
 		} else {
-			throw new MaintenanceException("This property is not currently available for maintenance.");
+			throw new MaintenanceException("Property is not available for maintenance");
 		}
 	}
 	
@@ -104,20 +107,20 @@ public abstract class RentalProperty {
 		if (DatabaseMethods.getStatus(propertyID).equals(PropertyStatus.UnderMaintenance.toString())) {
 			DatabaseMethods.updateStatus(propertyID, PropertyStatus.Available.toString());
 		} else {
-			throw new MaintenanceException("This property is not currently under maintenance.");
+			throw new MaintenanceException("Property is not currently under maintenance");
 		}
 	}
 	
-	private double calculateRentalFee(String propertyID, HashMap<String, String> recordMap) {
+	private double calculateRentalFee(String propertyID, HashMap<String, String> recordMap, String actReturnDateString) {
 		double rentalRate = getRentalRate(propertyID);
 		HashMap<String, String> record = recordMap;
 		DateTime rentDate = DateTimeMethods.dateFromString(record.get("rentDate"));
-		DateTime actReturnDate = DateTimeMethods.dateFromString(record.get("actReturnDate"));
+		DateTime actReturnDate = DateTimeMethods.dateFromString(actReturnDateString);
 		int numDays = DateTime.diffDays(actReturnDate, rentDate);
 		return numDays * rentalRate;
 	}
 	
-	protected abstract double calculateLateFee(String propertyID, HashMap<String, String> record);
+	protected abstract double calculateLateFee(String propertyID, HashMap<String, String> record, String actReturnDateString);
 	
 	protected abstract double getRentalRate(String propertyID);
 	

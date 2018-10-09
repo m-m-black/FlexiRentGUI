@@ -20,7 +20,7 @@ public class RentalRecord {
 		this.rentDate = DateTimeMethods.dateFromString(rentDate);
 		this.estReturnDate = DateTimeMethods.dateFromString(estReturnDate);
 		String values = "'" + this.recordID + "', '" + propertyID + "', '" + this.rentDate.toString() + "', '" 
-		+ this.estReturnDate.toString() + "'";
+		+ this.estReturnDate.toString() + "', 'null', '0', '0'";
 		DatabaseMethods.insertRow("RENTAL_RECORD", values);
 	}
 	

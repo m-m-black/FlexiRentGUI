@@ -8,7 +8,7 @@ public class DeleteTable {
 	public static void main(String[] args) throws SQLException {
 		
 		final String DB_NAME = "flexiRentDB";
-		final String TABLE_NAME = "RENTAL_RECORD";
+		final String TABLE_NAME = "RENTAL_PROPERTY";
 		
 		//use try-with-resources Statement
 		try (Connection con = FlexiRentDBConnection.getConnection(DB_NAME);

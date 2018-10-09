@@ -7,6 +7,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import model.DateTime;
 
 public class DatabaseMethods {
@@ -25,8 +27,8 @@ public class DatabaseMethods {
 			System.out.println("Insert into table " + TABLE_NAME + " executed successfully");
 			System.out.println(result + " row(s) affected");
 		} catch (Exception e) {
-			System.out.println("insertRow Exception");
-			System.out.println(e.getMessage());
+			Alert alert = new Alert(AlertType.WARNING, "Something went wrong");
+			alert.showAndWait();
 		}
 	}
 	
@@ -133,10 +135,12 @@ public class DatabaseMethods {
 				Statement stmt = con.createStatement();
 				) {
 			String query = "SELECT recordID FROM " + TABLE_NAME + 
-					" WHERE propertyID LIKE " + propertyID + 
-					" AND actReturnDate IS NULL";
+					" WHERE propertyID LIKE '" + propertyID + 
+					"' AND actReturnDate = 'null'";
 			try (ResultSet resultSet = stmt.executeQuery(query)) {
-				recordID = resultSet.getString("recordID");
+				if (resultSet.next()) {
+					recordID = resultSet.getString("recordID");
+				}
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 			}
@@ -154,13 +158,18 @@ public class DatabaseMethods {
 				Statement stmt = con.createStatement();
 				) {
 			String query = "SELECT * FROM " + TABLE_NAME + 
-					" WHERE recordID LIKE " + "'" + recordID + "'" + 
-					" AND actReturnDate IS NULL";
+					" WHERE recordID LIKE " + "'" + recordID + "'";
 			try (ResultSet resultSet = stmt.executeQuery(query)) {
-				record.put("recordID", resultSet.getString(1));
-				record.put("propertyID", resultSet.getString(2));
-				record.put("rentDate", resultSet.getString(3));
-				record.put("estReturnDate", resultSet.getString(4));
+				if (resultSet.next()) {
+					record.put("recordID", resultSet.getString(1));
+					record.put("propertyID", resultSet.getString(2));
+					record.put("rentDate", resultSet.getString(3));
+					record.put("estReturnDate", resultSet.getString(4));
+					record.put("actReturnDate", resultSet.getString(5));
+					record.put("rentalFee", resultSet.getString(6));
+					record.put("lateFee", resultSet.getString(7));
+					record.put("customerID", getCustomerID(recordID));
+				}
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 			}
@@ -168,6 +177,11 @@ public class DatabaseMethods {
 			System.out.println(e.getMessage());
 		}
 		return record;
+	}
+	
+	private static String getCustomerID(String recordID) {
+		String[] tokens = recordID.split("_");
+		return tokens[2];
 	}
 	
 	public static ArrayList<HashMap<String, String>> getProperties() {
@@ -294,7 +308,9 @@ public class DatabaseMethods {
 			String query = "SELECT numBedrooms FROM " + TABLE_NAME + 
 					" WHERE propertyID LIKE " + "'" + propertyID + "'";
 			try (ResultSet resultSet = stmt.executeQuery(query)) {
-				numBedrooms = resultSet.getInt(5);
+				if (resultSet.next()) {
+					numBedrooms = resultSet.getInt(1);
+				}
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 			}
@@ -314,7 +330,9 @@ public class DatabaseMethods {
 				) {
 			String query = "SELECT status FROM " + TABLE_NAME + " WHERE propertyID LIKE '" + propertyID + "'";
 			try (ResultSet resultSet = stmt.executeQuery(query)) {
-				status = resultSet.getString(1);
+				if (resultSet.next()) {
+					status = resultSet.getString(1);
+				}
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 			}
@@ -334,7 +352,9 @@ public class DatabaseMethods {
 			String query = "SELECT lastMaintenanceDate FROM " + 
 				TABLE_NAME + " WHERE propertyID LIKE '" + propertyID + "'";
 			try (ResultSet resultSet = stmt.executeQuery(query)) {
-				lastMaintenanceDate = resultSet.getString(1);
+				if (resultSet.next()) {
+					lastMaintenanceDate = resultSet.getString(1);
+				}
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 			}
@@ -342,6 +362,37 @@ public class DatabaseMethods {
 			System.out.println(e.getMessage());
 		}
 		return lastMaintenanceDate;
+	}
+	
+	public static HashMap<String, String> getProperty(String propertyID) {
+		HashMap<String, String> property = new HashMap<String, String>();
+		final String DB_NAME = "flexiRentDB";
+		final String TABLE_NAME = "RENTAL_PROPERTY";
+		try (Connection con = FlexiRentDBConnection.getConnection(DB_NAME);
+				Statement stmt = con.createStatement();
+				) {
+			String query = "SELECT * FROM " + TABLE_NAME + " WHERE propertyID LIKE '" 
+				+ propertyID + "'";
+			try (ResultSet resultSet = stmt.executeQuery(query)) {
+				while (resultSet.next()) {
+					property.put("propertyID", resultSet.getString(1));
+					property.put("streetNumber", resultSet.getString(2));
+					property.put("streetName", resultSet.getString(3));
+					property.put("suburb", resultSet.getString(4));
+					property.put("numBedrooms", resultSet.getString(5));
+					property.put("type", resultSet.getString(6));
+					property.put("status", resultSet.getString(7));
+					property.put("lastMaintenanceDate", resultSet.getString(8));
+					property.put("description", resultSet.getString(9));
+					property.put("image", resultSet.getString(10));
+				}
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+ 		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return property;
 	}
 
 }
