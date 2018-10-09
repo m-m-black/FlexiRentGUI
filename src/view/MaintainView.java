@@ -1,6 +1,6 @@
 package view;
 
-import controller.listeners.BackButtonHandler;
+import controller.BackButtonHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;

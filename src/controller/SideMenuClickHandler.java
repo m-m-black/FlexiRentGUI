@@ -1,4 +1,4 @@
-package controller.listeners;
+package controller;
 
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;

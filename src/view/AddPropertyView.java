@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import controller.listeners.AddPropertyHandler;
+import controller.AddPropertyHandler;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

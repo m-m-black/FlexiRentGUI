@@ -1,11 +1,11 @@
-package controller.listeners;
+package controller;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import model.PropertyStatus;
-import view.AlertWindow;
-import view.ConfirmationWindow;
 import view.PropertyDetailWindow;
 
 public class PropertyDetailController implements EventHandler<ActionEvent> {
@@ -31,7 +31,8 @@ public class PropertyDetailController implements EventHandler<ActionEvent> {
 			PropertyDetailWindow.getButtonsView().setVisible(false);
 			PropertyDetailWindow.getRentView().toFront();
 		} else {
-			AlertWindow.show("Property is not available for rent");
+			Alert alert = new Alert(AlertType.WARNING, "Property is not available for rent");
+			alert.showAndWait();
 		}
 	}
 	
@@ -41,25 +42,30 @@ public class PropertyDetailController implements EventHandler<ActionEvent> {
 			PropertyDetailWindow.getButtonsView().setVisible(false);
 			PropertyDetailWindow.getReturnView().toFront();
 		} else {
-			AlertWindow.show("Property is not currently being rented");
+			Alert alert = new Alert(AlertType.WARNING, "Property is not currently being rented");
+			alert.showAndWait();
 		}
 	}
 	
 	public void handleMaintain() {
 		if (PropertyDetailWindow.getStatus().compareTo(PropertyStatus.Available.toString()) == 0) {
 			// set property status to UnderMaintenance
-			ConfirmationWindow.show("Property is now under maintenance");
+			Alert alert = new Alert(AlertType.INFORMATION, "Property is now under maintenance");
+			alert.showAndWait();
 		} else {
-			AlertWindow.show("Property is not available for maintenance");
+			Alert alert = new Alert(AlertType.WARNING, "Property is not available for maintenance");
+			alert.showAndWait();
 		}
 	}
 	
 	public void handleComplete() {
 		if (PropertyDetailWindow.getStatus().compareTo(PropertyStatus.UnderMaintenance.toString()) == 0) {
 			// set property status to available
-			ConfirmationWindow.show("Maintenance is not complete");
+			Alert alert = new Alert(AlertType.INFORMATION, "Maintenance is now complete");
+			alert.showAndWait();
 		} else {
-			AlertWindow.show("Property is not currently under maintenance");
+			Alert alert = new Alert(AlertType.WARNING, "Property is not currently under maintenance");
+			alert.showAndWait();
 		}
 	}
 	

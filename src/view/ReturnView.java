@@ -1,6 +1,7 @@
 package view;
 
-import controller.listeners.BackButtonHandler;
+import controller.BackButtonHandler;
+import controller.ReturnButtonHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -54,6 +55,7 @@ public class ReturnView extends BorderPane {
 		backButton.setOnAction(new BackButtonHandler());
 		form.add(backButton, 0, 6);
 		Button returnButton = new Button("Return Property");
+		returnButton.setOnAction(new ReturnButtonHandler(actReturnDatePicker));
 		form.add(returnButton, 1, 6);
 	}
 

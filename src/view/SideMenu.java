@@ -1,8 +1,11 @@
 package view;
 
-import controller.listeners.SideMenuClickHandler;
-import controller.listeners.SideMenuHandler;
+import controller.SideMenuClickHandler;
+import controller.SideMenuHandler;
 import javafx.geometry.Insets;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
@@ -13,12 +16,14 @@ public class SideMenu extends BorderPane {
 	private VBox topLabels;
 	private VBox bottomLabels;
 	private FlowPane[] labels;
+	private FlowPane bottomLabel;
 	private Label exitLabel;
 	
 	public SideMenu(double width) {
 		topLabels = new VBox();
 		bottomLabels = new VBox();
 		labels = new FlowPane[2];
+		bottomLabel = new FlowPane();
 		
 		this.setTop(topLabels);
 		this.setBottom(bottomLabels);
@@ -27,11 +32,18 @@ public class SideMenu extends BorderPane {
 		addLabels();
 		
 		exitLabel = new Label("Exit");
-		bottomLabels.getChildren().add(exitLabel);
+		bottomLabel.getChildren().add(exitLabel);
+		bottomLabel.setPadding(new Insets(30, 10, 30, 10));
+		bottomLabel.setOnMouseClicked(e -> {
+			Alert alert = new Alert(AlertType.CONFIRMATION, "Are you sure you want to exit?");
+			alert.showAndWait()
+				.filter(response -> response == ButtonType.OK)
+				.ifPresent(response -> System.exit(0));
+		});
+		bottomLabels.getChildren().add(bottomLabel);
 		
 		topLabels.setMaxWidth(width);
 		bottomLabels.setMaxWidth(width);
-		bottomLabels.setPadding(new Insets(10, 10, 10, 10));
 	}
 	
 	private void setLabels() {
@@ -41,15 +53,6 @@ public class SideMenu extends BorderPane {
 		labels[1] = new FlowPane();
 		labels[1].getChildren().add(new Label("Add Property"));
 		labels[1].getChildren().get(0).setId("Add Property");
-//		labels[2] = new FlowPane();
-//		labels[2].getChildren().add(new Label("Rent Property"));
-//		labels[2].getChildren().get(0).setId("Rent Property");
-//		labels[3] = new FlowPane();
-//		labels[3].getChildren().add(new Label("Return Property"));
-//		labels[3].getChildren().get(0).setId("Return Property");
-//		labels[4] = new FlowPane();
-//		labels[4].getChildren().add(new Label("Property Maintenance"));
-//		labels[4].getChildren().get(0).setId("Property Maintenance");
 	}
 	
 	private void addLabels() {
@@ -59,6 +62,8 @@ public class SideMenu extends BorderPane {
 			labels[i].setOnMouseExited(new SideMenuHandler(labels[i], false));
 			labels[i].setOnMouseClicked(new SideMenuClickHandler(labels[i].getChildren().get(0).getId()));
 			topLabels.getChildren().add(labels[i]);
+			bottomLabel.setOnMouseEntered(new SideMenuHandler(bottomLabel, true));
+			bottomLabel.setOnMouseExited(new SideMenuHandler(bottomLabel, false));
 		}
 	}
 	

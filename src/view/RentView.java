@@ -1,7 +1,7 @@
 package view;
 
-import controller.listeners.BackButtonHandler;
-import controller.listeners.RentButtonHandler;
+import controller.BackButtonHandler;
+import controller.RentButtonHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;

@@ -3,7 +3,7 @@ package view;
 import java.io.File;
 import java.util.HashMap;
 
-import controller.listeners.PropertyDetailController;
+import controller.PropertyDetailController;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
