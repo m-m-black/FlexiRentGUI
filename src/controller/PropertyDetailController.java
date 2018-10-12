@@ -5,6 +5,7 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
 import model.Apartment;
 import model.DateTime;
 import model.PremiumSuite;
@@ -23,7 +24,7 @@ public class PropertyDetailController implements EventHandler<ActionEvent> {
 	private String type;
 	private RentalProperty r;
 	
-	public PropertyDetailController(PropertyDetailWindow window, String propertyID, String type) {
+	public PropertyDetailController(PropertyDetailWindow window, String propertyID, String type, VBox recordsView) {
 		this.window = window;
 		this.propertyID = propertyID;
 		this.type = type;
@@ -32,6 +33,7 @@ public class PropertyDetailController implements EventHandler<ActionEvent> {
 		} else if (type.compareTo(PropertyType.PremiumSuite.toString()) == 0) {
 			r = new PremiumSuite();
 		}
+		new RentalRecordController(recordsView, propertyID);
 	}
 	
 	@Override

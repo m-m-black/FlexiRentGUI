@@ -2,7 +2,6 @@ package view;
 
 import java.io.File;
 import java.util.HashMap;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;

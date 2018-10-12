@@ -220,6 +220,35 @@ public class DatabaseMethods {
 		return propertiesResultSets;
 	}
 	
+	public static ArrayList<HashMap<String, String>> getPropertyRecords(String propertyID) {
+		final String DB_NAME = "flexiRentDB";
+		final String TABLE_NAME = "RENTAL_RECORD";
+		ArrayList<HashMap<String, String>> records = new ArrayList<HashMap<String, String>>();
+		try (Connection con = FlexiRentDBConnection.getConnection(DB_NAME);
+				Statement stmt = con.createStatement();
+				) {
+			String query = "SELECT * FROM " + TABLE_NAME + " WHERE propertyID LIKE '" + propertyID + "'";
+			try (ResultSet resultSet = stmt.executeQuery(query)) {
+				while (resultSet.next()) {
+					HashMap<String, String> r = new HashMap<String, String>();
+					r.put("recordID", resultSet.getString(1));
+					r.put("propertyID", resultSet.getString(2));
+					r.put("rentDate", resultSet.getString(3));
+					r.put("estReturnDate", resultSet.getString(4));
+					r.put("actReturnDate", resultSet.getString(5));
+					r.put("rentalFee", resultSet.getString(6));
+					r.put("lateFee", resultSet.getString(7));
+					records.add(r);
+					}
+				} catch (SQLException e) {
+					System.out.println(e.getMessage());
+				}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return records;
+	}
+	
 	public static ArrayList<String> getAllRows() {
 		final String DB_NAME = "flexiRentDB";
 		// ArrayList to store a String for each row

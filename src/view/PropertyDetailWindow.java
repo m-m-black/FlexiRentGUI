@@ -2,7 +2,6 @@ package view;
 
 import java.io.File;
 import java.util.HashMap;
-
 import controller.PropertyDetailController;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -35,7 +34,6 @@ public class PropertyDetailWindow extends GridPane {
 	private static GridPane buttonsView;
 	private static RentView rentView;
 	private static ReturnView returnView;
-	
 	private Label maintainText;
 	private Label statusText;
 	
@@ -122,7 +120,7 @@ public class PropertyDetailWindow extends GridPane {
 		Button returnButton = new Button("Return");
 		Button maintainButton = new Button("Maintenance");
 		Button completeButton = new Button("Complete Maintenance");
-		PropertyDetailController controller = new PropertyDetailController(this, propertyID, type);
+		PropertyDetailController controller = new PropertyDetailController(this, propertyID, type, recordsView);
 		rentButton.setOnAction(controller);
 		returnButton.setOnAction(controller);
 		maintainButton.setOnAction(controller);

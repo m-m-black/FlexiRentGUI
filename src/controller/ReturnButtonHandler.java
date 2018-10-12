@@ -13,6 +13,7 @@ import model.db.DateTimeMethods;
 import model.exceptions.ReturnException;
 import view.PropertyDetailWindow;
 import view.ReturnView;
+import view.StartUp;
 
 public class ReturnButtonHandler implements EventHandler<ActionEvent> {
 	
@@ -37,6 +38,7 @@ public class ReturnButtonHandler implements EventHandler<ActionEvent> {
 			Alert alert = new Alert(AlertType.INFORMATION, "Property has now been returned");
 			alert.showAndWait();
 			window.updateView();
+			StartUp.refresh();
 			ReturnView.updateView();
 		} catch (NullPointerException n) {
 			n.printStackTrace();
