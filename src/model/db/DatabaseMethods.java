@@ -27,7 +27,7 @@ public class DatabaseMethods {
 			System.out.println("Insert into table " + TABLE_NAME + " executed successfully");
 			System.out.println(result + " row(s) affected");
 		} catch (Exception e) {
-			Alert alert = new Alert(AlertType.WARNING, "Something went wrong");
+			Alert alert = new Alert(AlertType.WARNING, "Something went wrong: DatabaseMethods.insertRow");
 			alert.showAndWait();
 		}
 	}
@@ -249,7 +249,7 @@ public class DatabaseMethods {
 		return records;
 	}
 	
-	public static ArrayList<String> getAllRows() {
+	public static ArrayList<String> getAllPropertyRows() {
 		final String DB_NAME = "flexiRentDB";
 		// ArrayList to store a String for each row
 		ArrayList<String> rows = new ArrayList<String>();
@@ -269,10 +269,10 @@ public class DatabaseMethods {
 					row += resultSet.getString(5) + ":";
 					row += resultSet.getString(7) + ":";
 					if (resultSet.getString(6).compareTo("Premium Suite") == 0) {
-						row += resultSet.getString(9) + ":";
+						row += resultSet.getString(8) + ":";
 					}
-					row += resultSet.getString(11) + ":";
-					row += resultSet.getString(10);
+					row += resultSet.getString(10) + ":";
+					row += resultSet.getString(9);
 					rows.add(row);
 				}
 			} catch (SQLException e) {
@@ -284,7 +284,39 @@ public class DatabaseMethods {
 		return rows;
 	}
 	
-	public static ArrayList<String> getIDs() {
+	public static ArrayList<ArrayList<String>> getAllRecordRows() {
+		final String DB_NAME = "flexiRentDB";
+		ArrayList<ArrayList<String>> records = new ArrayList<ArrayList<String>>();
+		try (Connection con = FlexiRentDBConnection.getConnection(DB_NAME);
+				Statement stmt = con.createStatement();
+				) {
+			String query = "SELECT * FROM RENTAL_RECORD";
+			try (ResultSet resultSet = stmt.executeQuery(query)) {
+				while (resultSet.next()) {
+					ArrayList<String> packet = new ArrayList<String>();
+					String row = "";
+					// build String with ":" separator for each row
+					row += resultSet.getString(1) + ":";
+					row += resultSet.getString(3) + ":";
+					row += resultSet.getString(4) + ":";
+					row += resultSet.getString(5) + ":";
+					row += resultSet.getString(6) + ":";
+					row += resultSet.getString(7) + ":";
+					packet.add(row);
+					packet.add(resultSet.getString(2));
+					records.add(packet);
+				}
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+ 		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		// add row to packet, add propertyID to packet, add packet to rows
+		return records;
+	}
+	
+	public static ArrayList<String> getPropertyIDs() {
 		ArrayList<String> ids = new ArrayList<String>();
 		final String DB_NAME = "flexiRentDB";
 		final String TABLE_NAME = "RENTAL_PROPERTY";
@@ -292,6 +324,27 @@ public class DatabaseMethods {
 				Statement stmt = con.createStatement();
 				) {
 			String query = "SELECT propertyID FROM " + TABLE_NAME;
+			try (ResultSet resultSet = stmt.executeQuery(query)) {
+				while (resultSet.next()) {
+					ids.add(resultSet.getString(1));
+				}
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+ 		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return ids;
+	}
+	
+	public static ArrayList<String> getRecordIDs() {
+		ArrayList<String> ids = new ArrayList<String>();
+		final String DB_NAME = "flexiRentDB";
+		final String TABLE_NAME = "RENTAL_RECORD";
+		try (Connection con = FlexiRentDBConnection.getConnection(DB_NAME);
+				Statement stmt = con.createStatement();
+				) {
+			String query = "SELECT recordID FROM " + TABLE_NAME;
 			try (ResultSet resultSet = stmt.executeQuery(query)) {
 				while (resultSet.next()) {
 					ids.add(resultSet.getString(1));

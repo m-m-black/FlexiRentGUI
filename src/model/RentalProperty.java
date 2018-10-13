@@ -37,6 +37,15 @@ public abstract class RentalProperty {
 		DatabaseMethods.insertRow("RENTAL_PROPERTY", values);
 	}
 	
+	public RentalProperty(String propertyID, int streetNumber, String streetName, String suburb,
+			int numBedrooms, PropertyType type, PropertyStatus status, String description, String image) {
+		String values = "'" + propertyID + "', " + Integer.toString(streetNumber) + ", '" + streetName + "', '" 
+				+ suburb + "', " + Integer.toString(numBedrooms) + ", '" + type.toString() + "', '" 
+				+ status.toString() + "', " + "'" + new DateTime().toString() + "'" + ", '" 
+				+ description + "', '" + image + "'";
+		DatabaseMethods.insertRow("RENTAL_PROPERTY", values);
+	}
+	
 	// toString method
 	@Override
 	public String toString() {

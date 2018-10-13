@@ -29,12 +29,19 @@ public class ExportDataController implements EventHandler<ActionEvent>{
 	
 	private void writeToFile(String absolutePath, String fileName) {
 		PrintWriter pw;
-		ArrayList<String> rows = DatabaseMethods.getAllRows();
+		ArrayList<String> propertyRows = DatabaseMethods.getAllPropertyRows();
+		ArrayList<ArrayList<String>> recordRows = DatabaseMethods.getAllRecordRows();
 		try {
 			pw = new PrintWriter(absolutePath + "/" + fileName, "UTF-8");
 			// write each row to file
-			for (String row: rows) {
+			for (String row: propertyRows) {
 				pw.println(row);
+				for (ArrayList<String> record: recordRows) {
+					// if propertyID in record matches propertyID in row
+					if (row.split(":")[0].compareTo(record.get(1)) == 0) {
+						pw.println(record.get(0));
+					}
+				}
 			}
 			pw.close();
 		} catch (FileNotFoundException | UnsupportedEncodingException e) {

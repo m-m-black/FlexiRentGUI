@@ -24,6 +24,15 @@ public class RentalRecord {
 		DatabaseMethods.insertRow("RENTAL_RECORD", values);
 	}
 	
+	// Alternative constructor
+	public RentalRecord(String recordID, String rentDate, String estReturnDate, 
+			String actReturnDate, String rentalFee, String lateFee) {
+		String propertyID = recordID.split("_")[0] + "_" + recordID.split("_")[1];
+		String values = "'" + recordID + "', '" + propertyID + "', '" + rentDate + "', '" + estReturnDate + 
+				"', '" + actReturnDate + "', '" + rentalFee + "', '" + lateFee + "'";
+		DatabaseMethods.insertRow("RENTAL_RECORD", values);
+	}
+	
 	public String getRecordID() {
 		return recordID;
 	}

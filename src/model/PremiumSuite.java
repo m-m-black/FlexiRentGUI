@@ -18,6 +18,11 @@ public class PremiumSuite extends RentalProperty {
 		super(streetNumber, streetName, suburb, 3, type, status, description, image);
 	}
 	
+	public PremiumSuite(String propertyID, int streetNumber, String streetName, String suburb, 
+			PropertyType type, PropertyStatus status, String description, String image) {
+		super(propertyID, streetNumber, streetName, suburb, 3, type, status, description, image);
+	}
+	
 	public static void rent(String propertyID, String customerID, String rentDateString, 
 			String estReturnDateString) throws RentException {
 		// check if maintenance will be due before estimated return date

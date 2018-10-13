@@ -17,6 +17,11 @@ public class Apartment extends RentalProperty {
 		super(streetNumber, streetName, suburb, numBedrooms, type, status, description, image);
 	}
 	
+	public Apartment(String propertyID, int streetNumber, String streetName, String suburb,
+			int numBedrooms, PropertyType type, PropertyStatus status, String description, String image) {
+		super(propertyID, streetNumber, streetName, suburb, numBedrooms, type, status, description, image);
+	}
+	
 	public static void rent(String propertyID, String customerID, String rentDateString, 
 			String estReturnDateString) throws RentException {
 		// check which day of week rentDate is, then check if minimum day requirement has been met

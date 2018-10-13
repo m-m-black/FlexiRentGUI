@@ -53,7 +53,7 @@ public class ReturnButtonHandler implements EventHandler<ActionEvent> {
 			try {
 				r.returnProperty(propertyID, actReturnDateString);
 			} catch (ReturnException e) {
-				Alert alert = new Alert(AlertType.WARNING, "Something went wrong");
+				Alert alert = new Alert(AlertType.WARNING, "Something went wrong: ReturnButtonHandler.returnProperty()[1]");
 				alert.showAndWait();
 			}
 		} else if (type.compareTo(PropertyType.PremiumSuite.toString()) == 0) {
@@ -61,7 +61,7 @@ public class ReturnButtonHandler implements EventHandler<ActionEvent> {
 			try {
 				r.returnProperty(propertyID, actReturnDateString);
 			} catch (ReturnException e) {
-				Alert alert = new Alert(AlertType.WARNING, "Something went wrong");
+				Alert alert = new Alert(AlertType.WARNING, "Something went wrong: ReturnButtonHandler.returnProperty()[2]");
 				alert.showAndWait();
 			}
 		}
