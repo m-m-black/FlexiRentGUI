@@ -1,28 +1,35 @@
 package view;
 
-import javafx.scene.control.Label;
+import java.util.ArrayList;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 
 public class HomeView extends BorderPane {
 	
-	GridPane grid = new GridPane();
+	static VBox list = new VBox();
+	private static ArrayList<PropertyListItem> items;
 	
 	public HomeView() {
 		this.setStyle("-fx-background-color: white");
-		this.setTop(new Label("Listing all properties"));
-		this.makeGrid();
-		this.setCenter(grid);
+		this.setTop(new FilterView());
+		this.setCenter(list);
+		items = new ArrayList<PropertyListItem>();
 	}
 	
-	private void makeGrid() {
-		grid.setHgap(10);
-		grid.setVgap(10);
+	public void addItem(PropertyListItem item) {
+		list.getChildren().add(item);
+		items.add(item);
 	}
 	
-	// add a PropertyListItem to the grid
-	public void addItem(PropertyListItem item, int row, int col) {
-		grid.add(item, row, col);
+	public static void updateList(ArrayList<PropertyListItem> filteredItems) {
+		list.getChildren().clear();
+		for (PropertyListItem item: filteredItems) {
+			list.getChildren().add(item);
+		}
+	}
+	
+	public static ArrayList<PropertyListItem> getItems() {
+		return items;
 	}
 
 }

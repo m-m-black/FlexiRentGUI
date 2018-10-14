@@ -30,6 +30,7 @@ public class PropertyListItem extends HBox {
 		extractInfo();
 		makeItem(propertyID, imageURL, titleText, descriptionText);
 		getChildren().addAll(imageBox, titleBox, detailsButton);
+		window = new PropertyDetailWindow(property);
 	}
 	
 	private void makeItem(String propertyID, String imageURL, String titleText, String descriptionText) {
@@ -43,7 +44,6 @@ public class PropertyListItem extends HBox {
 			@Override
 			public void handle(ActionEvent e) {
 				// create new PropertyDetailWindow
-				window = new PropertyDetailWindow(property);
 				// switch Home view to PropertyDetailWindow
 				StartUp.switchView(false, window);
 			}
@@ -66,6 +66,10 @@ public class PropertyListItem extends HBox {
 	
 	public void update(HashMap<String, String> propertyItem) {
 		this.property = propertyItem;
+	}
+	
+	public PropertyDetailWindow getWindow() {
+		return window;
 	}
 
 }

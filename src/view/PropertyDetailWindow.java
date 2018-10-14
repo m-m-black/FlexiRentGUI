@@ -158,8 +158,20 @@ public class PropertyDetailWindow extends GridPane {
 		return returnView;
 	}
 	
-	public static String getStatus() {
+	public String getStatus() {
 		return status;
+	}
+	
+	public String getSuburb() {
+		return suburb;
+	}
+	
+	public String getType() {
+		return type;
+	}
+	
+	public String getBedrooms() {
+		return numBedrooms;
 	}
 
 }

@@ -15,6 +15,7 @@ import model.RentalProperty;
 import model.exceptions.DateTimeException;
 import model.exceptions.MaintenanceException;
 import view.PropertyDetailWindow;
+import view.StartUp;
 
 public class PropertyDetailController implements EventHandler<ActionEvent> {
 	
@@ -52,7 +53,7 @@ public class PropertyDetailController implements EventHandler<ActionEvent> {
 	}
 	
 	public void handleRent() {
-		if (PropertyDetailWindow.getStatus().compareTo(PropertyStatus.Available.toString()) == 0) {
+		if (window.getStatus().compareTo(PropertyStatus.Available.toString()) == 0) {
 			PropertyDetailWindow.getRentView().setVisible(true);
 			PropertyDetailWindow.getButtonsView().setVisible(false);
 			PropertyDetailWindow.getRentView().toFront();
@@ -63,7 +64,7 @@ public class PropertyDetailController implements EventHandler<ActionEvent> {
 	}
 	
 	public void handleReturn() {
-		if (PropertyDetailWindow.getStatus().compareTo(PropertyStatus.Rented.toString()) == 0) {
+		if (window.getStatus().compareTo(PropertyStatus.Rented.toString()) == 0) {
 			PropertyDetailWindow.getReturnView().setVisible(true);
 			PropertyDetailWindow.getButtonsView().setVisible(false);
 			PropertyDetailWindow.getReturnView().toFront();
@@ -79,6 +80,7 @@ public class PropertyDetailController implements EventHandler<ActionEvent> {
 			Alert alert = new Alert(AlertType.INFORMATION, "Property is now under maintenance");
 			alert.showAndWait();
 			window.updateView();
+			StartUp.refresh();
 		} catch (MaintenanceException e) {
 			Alert alert = new Alert(AlertType.WARNING, e.getMessage());
 			alert.showAndWait();
@@ -91,6 +93,7 @@ public class PropertyDetailController implements EventHandler<ActionEvent> {
 			Alert alert = new Alert(AlertType.INFORMATION, "Maintenance is now complete");
 			alert.showAndWait();
 			window.updateView();
+			StartUp.refresh();
 		} catch (DateTimeException e1) {
 			Alert alert = new Alert(AlertType.WARNING, e1.getMessage());
 			alert.showAndWait();
